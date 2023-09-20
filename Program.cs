@@ -6,276 +6,107 @@ namespace BasicConnectivity;
 
 public class Program
 {
-  private static readonly string connectionString = "Server=ARKUN;Database=db_hr_dts;Trusted_Connection=True; Timeout=30;";
-
   private static void Main()
   {
-    GetAllJobs();
-    // GetJobById("UI");
-    // InsertJob("ML", "Machine Learning", 220333, 223300);
-    // UpdateJob("ML", "Machine Learning Specialis", 200000, 223300);
-    // DeleteJob("ML");
-  }
+    // Jobs
+    /*var jobs = new Jobs();
 
-  // GET ALL: Jobs
-  public static void GetAllJobs()
-  {
-    using var connection = new SqlConnection(connectionString);
-    using var command = new SqlCommand();
-
-    command.Connection = connection;
-    command.CommandText = "SELECT * FROM jobs";
-
-    try
+    var getAllRegion = jobs.GetAll();
+    if (getAllRegion.Count > 0)
     {
-      connection.Open();
-
-      using var reader = command.ExecuteReader();
-
-      if (reader.HasRows)
-        while (reader.Read())
-        {
-          Console.WriteLine("________________________");
-          Console.WriteLine("Id: " + reader.GetString(0));
-          Console.WriteLine("Title: " + reader.GetString(1));
-          Console.WriteLine("Min Salary: " + reader.GetInt32(2));
-          Console.WriteLine("Max Salary: " + reader.GetInt32(3));
-          Console.WriteLine("________________________");
-        }
-      else
-        Console.WriteLine("No rows found.");
-
-      reader.Close();
-      connection.Close();
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine($"Error: {ex.Message}");
-    }
-  }
-
-  // GET BY ID: Jobs
-  public static void GetJobById(string id)
-  {
-    using var connection = new SqlConnection(connectionString);
-    using var command = new SqlCommand();
-
-    command.Connection = connection;
-    command.CommandText = "SELECT * FROM jobs where id = @id";
-    command.Parameters.AddWithValue("@id", id);
-
-    try
-    {
-      connection.Open();
-
-      using var reader = command.ExecuteReader();
-
-      if (reader.HasRows)
-        while (reader.Read())
-        {
-          Console.WriteLine("________________________");
-          Console.WriteLine("Id: " + reader.GetString(0));
-          Console.WriteLine("Title: " + reader.GetString(1));
-          Console.WriteLine("Min Salary: " + reader.GetInt32(2));
-          Console.WriteLine("Max Salary: " + reader.GetInt32(3));
-          Console.WriteLine("________________________");
-        }
-      else
-        Console.WriteLine("No rows found.");
-
-      reader.Close();
-      connection.Close();
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine($"Error: {ex.Message}");
-    }
-  }
-
-  // INSERT: Jobs
-  public static void InsertJob(string id, string title, int min_salary, int max_salary)
-  {
-    using var connection = new SqlConnection(connectionString);
-    using var command = new SqlCommand();
-
-    command.Connection = connection;
-    command.CommandText = "INSERT INTO jobs VALUES (@id, @title, @min_salary, @max_salary);";
-
-    try
-    {
-      var pId = new SqlParameter();
-      pId.ParameterName = "@id";
-      pId.Value = id;
-      pId.SqlDbType = SqlDbType.VarChar;
-      command.Parameters.Add(pId);
-
-      var pTitle = new SqlParameter();
-      pTitle.ParameterName = "@title";
-      pTitle.Value = title;
-      pTitle.SqlDbType = SqlDbType.VarChar;
-      command.Parameters.Add(pTitle);
-
-      var pMinSalary = new SqlParameter();
-      pMinSalary.ParameterName = "@min_salary";
-      pMinSalary.Value = min_salary;
-      pMinSalary.SqlDbType = SqlDbType.Int;
-      command.Parameters.Add(pMinSalary);
-
-      var pMaxSalary = new SqlParameter();
-      pMaxSalary.ParameterName = "@max_salary";
-      pMaxSalary.Value = max_salary;
-      pMaxSalary.SqlDbType = SqlDbType.Int;
-      command.Parameters.Add(pMaxSalary);
-
-      connection.Open();
-      using var transaction = connection.BeginTransaction();
-      try
+      foreach (var region1 in getAllRegion)
       {
-        command.Transaction = transaction;
-
-        var result = command.ExecuteNonQuery();
-
-        transaction.Commit();
-        connection.Close();
-
-        switch (result)
-        {
-          case >= 1:
-            Console.WriteLine("Insert Success");
-            break;
-          default:
-            Console.WriteLine("Insert Failed");
-            break;
-        }
-      }
-      catch (Exception ex)
-      {
-        transaction.Rollback();
-        Console.WriteLine($"Error Transaction: {ex.Message}");
+        Console.WriteLine($"Id: {region1.Id}, Name: {region1.Title}, Min Salary: {region1.MinSalary}, Max Salary: {region1.MaxSalary}");
       }
     }
-    catch (Exception ex)
+    else
     {
-      Console.WriteLine($"Error: {ex.Message}");
+      Console.WriteLine("No data found");
+    }
+
+    var gelJobById = jobs.GetById("UI");
+    if (gelJobById != null)
+    {
+      Console.WriteLine($"Id: {gelJobById.Id}, Name: {gelJobById.Title}, Min Salary: {gelJobById.MinSalary}, Max Salary: {gelJobById.MaxSalary}");
+    }
+    else
+    {
+      Console.WriteLine("No data found");
+    }
+
+    var insertResult = jobs.Insert("ML", "Machine Learning", 220333, 223300);
+    int.TryParse(insertResult, out int result);
+    if (result > 0)
+    {
+      Console.WriteLine("Insert Success");
+    }
+    else
+    {
+      Console.WriteLine("Insert Failed");
+      Console.WriteLine(insertResult);
+    }
+
+    var updateResult = jobs.Update("ML", "Machine Learning Specialist", 200000, 223300);
+    int.TryParse(updateResult, out int result);
+    if (result > 0)
+    {
+      Console.WriteLine("Update Success");
+    }
+    else
+    {
+      Console.WriteLine("Update Failed");
+      Console.WriteLine(updateResult);
+    }
+
+    var deleteResult = jobs.Delete("ML");
+    int.TryParse(deleteResult, out int result);
+    if (result > 0)
+    {
+      Console.WriteLine("Delete Success");
+    }
+    else
+    {
+      Console.WriteLine("Delete Failed");
+      Console.WriteLine(deleteResult);
+    }
+
+    */
+
+    // Regions
+
+    // var region = new Region();
+
+    // var getAllRegion = region.GetAll();
+
+    // if (getAllRegion.Count > 0)
+    // {
+    //   foreach (var region1 in getAllRegion)
+    //   {
+    //     Console.WriteLine($"Id: {region1.Id}, Name: {region1.Name}");
+    //   }
+    // }
+    // else
+    // {
+    //   Console.WriteLine("No data found");
+    // }
+
+    // Countries
+    var countries = new Countries();
+
+    var getAllCountries = countries.GetAll();
+
+    if (getAllCountries.Count > 0)
+    {
+      foreach (var country in getAllCountries)
+      {
+        Console.WriteLine($"Id: {country.Id}, Name: {country.Name}");
+      }
+    }
+    else
+    {
+      Console.WriteLine("No data found");
     }
   }
 
-  // UPDATE: Jobs
-  public static void UpdateJob(string id, string title, int min_salary, int max_salary)
-  {
-    using var connection = new SqlConnection(connectionString);
-    using var command = new SqlCommand();
 
-    command.Connection = connection;
-    command.CommandText = "UPDATE jobs SET id = @id, title = @title, min_salary = @min_salary, max_salary = @max_salary WHERE id = @id";
-
-    try
-    {
-      var pId = new SqlParameter();
-      pId.ParameterName = "@id";
-      pId.Value = id;
-      pId.SqlDbType = SqlDbType.VarChar;
-      command.Parameters.Add(pId);
-
-      var pTitle = new SqlParameter();
-      pTitle.ParameterName = "@title";
-      pTitle.Value = title;
-      pTitle.SqlDbType = SqlDbType.VarChar;
-      command.Parameters.Add(pTitle);
-
-      var pMinSalary = new SqlParameter();
-      pMinSalary.ParameterName = "@min_salary";
-      pMinSalary.Value = min_salary;
-      pMinSalary.SqlDbType = SqlDbType.Int;
-      command.Parameters.Add(pMinSalary);
-
-      var pMaxSalary = new SqlParameter();
-      pMaxSalary.ParameterName = "@max_salary";
-      pMaxSalary.Value = max_salary;
-      pMaxSalary.SqlDbType = SqlDbType.Int;
-      command.Parameters.Add(pMaxSalary);
-
-      connection.Open();
-      using var transaction = connection.BeginTransaction();
-      try
-      {
-        command.Transaction = transaction;
-
-        var result = command.ExecuteNonQuery();
-
-        transaction.Commit();
-        connection.Close();
-
-        switch (result)
-        {
-          case >= 1:
-            Console.WriteLine("Update Success");
-            break;
-          default:
-            Console.WriteLine("Insert Failed");
-            break;
-        }
-      }
-      catch (Exception ex)
-      {
-        transaction.Rollback();
-        Console.WriteLine($"Error Transaction: {ex.Message}");
-      }
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine($"Error: {ex.Message}");
-    }
-  }
-
-  // DELETE: Jobs
-  public static void DeleteJob(string id)
-  {
-
-    using var connection = new SqlConnection(connectionString);
-    using var command = new SqlCommand();
-
-    command.Connection = connection;
-    command.CommandText = "DELETE FROM jobs WHERE id = @id";
-
-    try
-    {
-      var pId = new SqlParameter();
-      pId.ParameterName = "@id";
-      pId.Value = id;
-      pId.SqlDbType = SqlDbType.VarChar;
-      command.Parameters.Add(pId);
-
-      connection.Open();
-      using var transaction = connection.BeginTransaction();
-      try
-      {
-        command.Transaction = transaction;
-
-        var result = command.ExecuteNonQuery();
-
-        transaction.Commit();
-        connection.Close();
-
-        switch (result)
-        {
-          case >= 1:
-            Console.WriteLine("Delete Success");
-            break;
-          default:
-            Console.WriteLine("Delete Failed");
-            break;
-        }
-      }
-      catch (Exception ex)
-      {
-        transaction.Rollback();
-        Console.WriteLine($"Error Transaction: {ex.Message}");
-      }
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine($"Error: {ex.Message}");
-    }
-  }
 }

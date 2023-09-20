@@ -1,0 +1,262 @@
+   GET ALL: Jobs
+   public static void GetAllJobs()
+   {
+     using var connection = new SqlConnection(connectionString);
+     using var command = new SqlCommand();
+
+     command.Connection = connection;
+     command.CommandText = "SELECT * FROM jobs";
+
+     try
+     {
+       connection.Open();
+
+       using var reader = command.ExecuteReader();
+
+       if (reader.HasRows)
+         while (reader.Read())
+         {
+           Console.WriteLine("________________________");
+           Console.WriteLine("Id: " + reader.GetString(0));
+           Console.WriteLine("Title: " + reader.GetString(1));
+           Console.WriteLine("Min Salary: " + reader.GetInt32(2));
+           Console.WriteLine("Max Salary: " + reader.GetInt32(3));
+           Console.WriteLine("________________________");
+         }
+       else
+         Console.WriteLine("No rows found.");
+
+       reader.Close();
+       connection.Close();
+     }
+     catch (Exception ex)
+     {
+       Console.WriteLine($"Error: {ex.Message}");
+     }
+   }
+
+
+   GET BY ID: Jobs
+ public static void GetJobById(string id)
+ {
+   using var connection = new SqlConnection(connectionString);
+   using var command = new SqlCommand();
+
+   command.Connection = connection;
+   command.CommandText = "SELECT * FROM jobs where id = @id";
+   command.Parameters.AddWithValue("@id", id);
+
+   try
+   {
+     connection.Open();
+
+     using var reader = command.ExecuteReader();
+
+     if (reader.HasRows)
+       while (reader.Read())
+       {
+         Console.WriteLine("________________________");
+         Console.WriteLine("Id: " + reader.GetString(0));
+         Console.WriteLine("Title: " + reader.GetString(1));
+         Console.WriteLine("Min Salary: " + reader.GetInt32(2));
+         Console.WriteLine("Max Salary: " + reader.GetInt32(3));
+         Console.WriteLine("________________________");
+       }
+     else
+       Console.WriteLine("No rows found.");
+
+     reader.Close();
+     connection.Close();
+   }
+   catch (Exception ex)
+   {
+     Console.WriteLine($"Error: {ex.Message}");
+   }
+ }
+
+   INSERT: Jobs
+   public static void InsertJob(string id, string title, int min_salary, int max_salary)
+   {
+     using var connection = new SqlConnection(connectionString);
+     using var command = new SqlCommand();
+
+     command.Connection = connection;
+     command.CommandText = "INSERT INTO jobs VALUES (@id, @title, @min_salary, @max_salary);";
+
+     try
+     {
+       var pId = new SqlParameter();
+       pId.ParameterName = "@id";
+       pId.Value = id;
+       pId.SqlDbType = SqlDbType.VarChar;
+       command.Parameters.Add(pId);
+
+       var pTitle = new SqlParameter();
+       pTitle.ParameterName = "@title";
+       pTitle.Value = title;
+       pTitle.SqlDbType = SqlDbType.VarChar;
+       command.Parameters.Add(pTitle);
+
+       var pMinSalary = new SqlParameter();
+       pMinSalary.ParameterName = "@min_salary";
+       pMinSalary.Value = min_salary;
+       pMinSalary.SqlDbType = SqlDbType.Int;
+       command.Parameters.Add(pMinSalary);
+
+       var pMaxSalary = new SqlParameter();
+       pMaxSalary.ParameterName = "@max_salary";
+       pMaxSalary.Value = max_salary;
+       pMaxSalary.SqlDbType = SqlDbType.Int;
+       command.Parameters.Add(pMaxSalary);
+
+       connection.Open();
+       using var transaction = connection.BeginTransaction();
+       try
+       {
+         command.Transaction = transaction;
+
+         var result = command.ExecuteNonQuery();
+
+         transaction.Commit();
+         connection.Close();
+
+         switch (result)
+         {
+           case >= 1:
+             Console.WriteLine("Insert Success");
+             break;
+           default:
+             Console.WriteLine("Insert Failed");
+             break;
+         }
+       }
+       catch (Exception ex)
+       {
+         transaction.Rollback();
+         Console.WriteLine($"Error Transaction: {ex.Message}");
+       }
+     }
+     catch (Exception ex)
+     {
+       Console.WriteLine($"Error: {ex.Message}");
+     }
+   }
+
+   UPDATE: Jobs
+   public static void UpdateJob(string id, string title, int min_salary, int max_salary)
+   {
+     using var connection = new SqlConnection(connectionString);
+     using var command = new SqlCommand();
+
+     command.Connection = connection;
+     command.CommandText = "UPDATE jobs SET id = @id, title = @title, min_salary = @min_salary, max_salary = @max_salary WHERE id = @id";
+
+     try
+     {
+       var pId = new SqlParameter();
+       pId.ParameterName = "@id";
+       pId.Value = id;
+       pId.SqlDbType = SqlDbType.VarChar;
+       command.Parameters.Add(pId);
+
+       var pTitle = new SqlParameter();
+       pTitle.ParameterName = "@title";
+       pTitle.Value = title;
+       pTitle.SqlDbType = SqlDbType.VarChar;
+       command.Parameters.Add(pTitle);
+
+       var pMinSalary = new SqlParameter();
+       pMinSalary.ParameterName = "@min_salary";
+       pMinSalary.Value = min_salary;
+       pMinSalary.SqlDbType = SqlDbType.Int;
+       command.Parameters.Add(pMinSalary);
+
+       var pMaxSalary = new SqlParameter();
+       pMaxSalary.ParameterName = "@max_salary";
+       pMaxSalary.Value = max_salary;
+       pMaxSalary.SqlDbType = SqlDbType.Int;
+       command.Parameters.Add(pMaxSalary);
+
+       connection.Open();
+       using var transaction = connection.BeginTransaction();
+       try
+       {
+         command.Transaction = transaction;
+
+         var result = command.ExecuteNonQuery();
+
+         transaction.Commit();
+         connection.Close();
+
+         switch (result)
+         {
+           case >= 1:
+             Console.WriteLine("Update Success");
+             break;
+           default:
+             Console.WriteLine("Insert Failed");
+             break;
+         }
+       }
+       catch (Exception ex)
+       {
+         transaction.Rollback();
+         Console.WriteLine($"Error Transaction: {ex.Message}");
+       }
+     }
+     catch (Exception ex)
+     {
+       Console.WriteLine($"Error: {ex.Message}");
+     }
+   }
+
+   DELETE: Jobs
+   public static void DeleteJob(string id)
+   {
+
+     using var connection = new SqlConnection(connectionString);
+     using var command = new SqlCommand();
+
+     command.Connection = connection;
+     command.CommandText = "DELETE FROM jobs WHERE id = @id";
+
+     try
+     {
+       var pId = new SqlParameter();
+       pId.ParameterName = "@id";
+       pId.Value = id;
+       pId.SqlDbType = SqlDbType.VarChar;
+       command.Parameters.Add(pId);
+
+       connection.Open();
+       using var transaction = connection.BeginTransaction();
+       try
+       {
+         command.Transaction = transaction;
+
+         var result = command.ExecuteNonQuery();
+
+         transaction.Commit();
+         connection.Close();
+
+         switch (result)
+         {
+           case >= 1:
+             Console.WriteLine("Delete Success");
+             break;
+           default:
+             Console.WriteLine("Delete Failed");
+             break;
+         }
+       }
+       catch (Exception ex)
+       {
+         transaction.Rollback();
+         Console.WriteLine($"Error Transaction: {ex.Message}");
+       }
+     }
+     catch (Exception ex)
+     {
+       Console.WriteLine($"Error: {ex.Message}");
+     }
+   }
