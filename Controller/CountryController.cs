@@ -29,10 +29,10 @@ public class CountriesController
 
   public void GetById()
   {
-    var region = _countriesView.GetCountriesById();
+    var countries = _countriesView.GetCountriesById();
 
-    var results = _countries.GetById(region);
-    if (region == null)
+    var results = _countries.GetById(countries);
+    if (countries == null)
     {
       Console.WriteLine("No data found");
     }
@@ -53,7 +53,7 @@ public class CountriesController
         inputCountry = _countriesView.InsertInput();
         if (string.IsNullOrEmpty(inputCountry.Name))
         {
-          Console.WriteLine("Region name cannot be empty");
+          Console.WriteLine("Countries name cannot be empty");
           continue;
         }
         isTrue = false;
@@ -66,6 +66,32 @@ public class CountriesController
 
     var result = _countries.Insert(inputCountry);
 
+    _countriesView.Transaction(result);
+  }
+
+  public void Update()
+  {
+    var countries = new Countries();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        countries = _countriesView.UpdateCountries();
+        if (string.IsNullOrEmpty(countries.Name))
+        {
+          Console.WriteLine("Countries name cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _countries.Update(countries);
     _countriesView.Transaction(result);
   }
 

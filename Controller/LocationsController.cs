@@ -30,10 +30,10 @@ public class LocationsController
 
   public void GetById()
   {
-    var region = _locationsView.GetCountriesById();
+    var locations = _locationsView.GetCountriesById();
 
-    var results = _locations.GetById(region);
-    if (region == null)
+    var results = _locations.GetById(locations);
+    if (locations == null)
     {
       Console.WriteLine("No data found");
     }
@@ -54,7 +54,7 @@ public class LocationsController
         inputLocation = _locationsView.InsertInput();
         if (string.IsNullOrEmpty(inputLocation.StreetAddress))
         {
-          Console.WriteLine("Region name cannot be empty");
+          Console.WriteLine("Locations name cannot be empty");
           continue;
         }
         isTrue = false;
@@ -67,6 +67,32 @@ public class LocationsController
 
     var result = _locations.Insert(inputLocation);
 
+    _locationsView.Transaction(result);
+  }
+
+  public void Update()
+  {
+    var locations = new Locations();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        locations = _locationsView.UpdateLocations();
+        if (string.IsNullOrEmpty(locations.StreetAddress))
+        {
+          Console.WriteLine("Locations name cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _locations.Update(locations);
     _locationsView.Transaction(result);
   }
 

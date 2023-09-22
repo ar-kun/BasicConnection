@@ -113,7 +113,7 @@ public class Countries
   }
 
   // UPDATE: Region
-  public string Update(string id, string name, int region_id)
+  public string Update(Countries countries)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -123,9 +123,9 @@ public class Countries
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@name", name));
-      command.Parameters.Add(new SqlParameter("@region_id", region_id));
+      command.Parameters.Add(new SqlParameter("@id", countries.Id));
+      command.Parameters.Add(new SqlParameter("@name", countries.Name));
+      command.Parameters.Add(new SqlParameter("@region_id", countries.Region_id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

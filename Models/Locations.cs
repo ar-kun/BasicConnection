@@ -123,7 +123,7 @@ public class Locations
   }
 
   // UPDATE: Region
-  public string Update(string id, string street_address, string postal_code, string city, string state_province, string country_id)
+  public string Update(Locations locations)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -133,12 +133,12 @@ public class Locations
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@street_address", street_address));
-      command.Parameters.Add(new SqlParameter("@postal_code", postal_code));
-      command.Parameters.Add(new SqlParameter("@city", city));
-      command.Parameters.Add(new SqlParameter("@state_province", state_province));
-      command.Parameters.Add(new SqlParameter("@country_id", country_id));
+      command.Parameters.Add(new SqlParameter("@id", locations.Id));
+      command.Parameters.Add(new SqlParameter("@street_address", locations.StreetAddress));
+      command.Parameters.Add(new SqlParameter("@postal_code", locations.PostalCode));
+      command.Parameters.Add(new SqlParameter("@city", locations.City));
+      command.Parameters.Add(new SqlParameter("@state_province", locations.StateProvince));
+      command.Parameters.Add(new SqlParameter("@country_id", locations.CountryId));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

@@ -134,7 +134,7 @@ public class Program
           countryController.Insert();
           break;
         case "4":
-          // countryController.Update();
+          countryController.Update();
           break;
         case "5":
           // countryController.Delete();
@@ -337,7 +337,7 @@ public class Program
     var historyController = new HistoriesController(history, historyView);
 
     var isLoop = true;
-    // while (isLoop)
+    while (isLoop)
     {
       Console.WriteLine("1. List all histories");
       Console.WriteLine("2. Get history by id");
