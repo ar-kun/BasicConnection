@@ -95,4 +95,30 @@ public class CountriesController
     _countriesView.Transaction(result);
   }
 
+  public void Delete()
+  {
+    var countries = new Countries();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        countries = _countriesView.Delete();
+        if (countries == null)
+        {
+          Console.WriteLine("Region not found");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _countries.Delete(countries);
+    _countriesView.Transaction(result);
+  }
+
 }

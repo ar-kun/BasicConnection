@@ -166,7 +166,7 @@ public class Locations
   }
 
   // DELETE: Region
-  public string Delete(string id)
+  public string Delete(Locations locations)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -176,7 +176,7 @@ public class Locations
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
+      command.Parameters.Add(new SqlParameter("@id", locations.Id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

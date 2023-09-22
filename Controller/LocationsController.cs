@@ -96,5 +96,31 @@ public class LocationsController
     _locationsView.Transaction(result);
   }
 
+  public void Delete()
+  {
+    var locations = new Locations();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        locations = _locationsView.Delete();
+        if (string.IsNullOrEmpty(locations.StreetAddress))
+        {
+          Console.WriteLine("Locations name cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _locations.Delete(locations);
+    _locationsView.Transaction(result);
+  }
+
 
 }

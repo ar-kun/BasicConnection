@@ -71,9 +71,9 @@ public class Program
     {
       Console.WriteLine("1. List all regions");
       Console.WriteLine("2. Get region by id");
-      Console.WriteLine("2. Insert new region");
-      Console.WriteLine("3. Update region");
-      Console.WriteLine("4. Delete region");
+      Console.WriteLine("3. Insert new region");
+      Console.WriteLine("4. Update region");
+      Console.WriteLine("5. Delete region");
       Console.WriteLine("10. Back");
       Console.Write("Enter your choice: ");
       var input2 = Console.ReadLine();
@@ -137,7 +137,7 @@ public class Program
           countryController.Update();
           break;
         case "5":
-          // countryController.Delete();
+          countryController.Delete();
           break;
         case "10":
           isLoop = false;
@@ -179,10 +179,10 @@ public class Program
           locationController.Insert();
           break;
         case "4":
-          // locationController.Update();
+          locationController.Update();
           break;
         case "5":
-          // locationController.Delete();
+          locationController.Delete();
           break;
         case "10":
           isLoop = false;
@@ -206,9 +206,9 @@ public class Program
     {
       Console.WriteLine("1. List all jobs");
       Console.WriteLine("2. Get job by id");
-      Console.WriteLine("2. Insert new job");
-      Console.WriteLine("3. Update job");
-      Console.WriteLine("4. Delete job");
+      Console.WriteLine("3. Insert new job");
+      Console.WriteLine("4. Update job");
+      Console.WriteLine("5. Delete job");
       Console.WriteLine("10. Back");
       Console.Write("Enter your choice: ");
       var input2 = Console.ReadLine();
@@ -251,9 +251,9 @@ public class Program
     {
       Console.WriteLine("1. List all departements");
       Console.WriteLine("2. Get departement by id");
-      Console.WriteLine("2. Insert new departement");
-      Console.WriteLine("3. Update departement");
-      Console.WriteLine("4. Delete departement");
+      Console.WriteLine("3. Insert new departement");
+      Console.WriteLine("4. Update departement");
+      Console.WriteLine("5. Delete departement");
       Console.WriteLine("10. Back");
       Console.Write("Enter your choice: ");
       var input2 = Console.ReadLine();
@@ -296,9 +296,9 @@ public class Program
     {
       Console.WriteLine("1. List all employees");
       Console.WriteLine("2. Get employee by id");
-      Console.WriteLine("2. Insert new employee");
-      Console.WriteLine("3. Update employee");
-      Console.WriteLine("4. Delete employee");
+      Console.WriteLine("3. Insert new employee");
+      Console.WriteLine("4. Update employee");
+      Console.WriteLine("5. Delete employee");
       Console.WriteLine("10. Back");
       Console.Write("Enter your choice: ");
       var input2 = Console.ReadLine();
@@ -341,9 +341,9 @@ public class Program
     {
       Console.WriteLine("1. List all histories");
       Console.WriteLine("2. Get history by id");
-      Console.WriteLine("2. Insert new history");
-      Console.WriteLine("3. Update history");
-      Console.WriteLine("4. Delete history");
+      Console.WriteLine("3. Insert new history");
+      Console.WriteLine("4. Update history");
+      Console.WriteLine("5. Delete history");
       Console.WriteLine("10. Back");
       Console.Write("Enter your choice: ");
       var input2 = Console.ReadLine();

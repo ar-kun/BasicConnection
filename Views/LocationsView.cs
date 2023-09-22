@@ -5,7 +5,7 @@ public class LocationsView : GeneralView
 
   public Locations GetCountriesById()
   {
-    Console.WriteLine("Insert Countries id");
+    Console.WriteLine("Insert location id");
     var id = Convert.ToInt32(Console.ReadLine());
 
     return new Locations
@@ -63,6 +63,17 @@ public class LocationsView : GeneralView
       City = city,
       StateProvince = state_province,
       CountryId = country_id
+    };
+  }
+
+  public Locations Delete()
+  {
+    Console.WriteLine("Insert location id");
+    var id = Convert.ToInt32(Console.ReadLine());
+
+    return new Locations
+    {
+      Id = id
     };
   }
 

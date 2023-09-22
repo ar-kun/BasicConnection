@@ -153,7 +153,7 @@ public class Countries
   }
 
   // DELETE: Region
-  public string Delete(int id)
+  public string Delete(Countries countries)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -163,7 +163,7 @@ public class Countries
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
+      command.Parameters.Add(new SqlParameter("@id", countries.Id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
