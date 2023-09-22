@@ -176,7 +176,7 @@ public class Program
           locationController.GetById();
           break;
         case "3":
-          // locationController.Insert();
+          locationController.Insert();
           break;
         case "4":
           // locationController.Update();
@@ -221,7 +221,7 @@ public class Program
           // jobController.GetById();
           break;
         case "3":
-          // jobController.Insert();
+          jobController.Insert();
           break;
         case "4":
           // jobController.Update();
@@ -266,7 +266,7 @@ public class Program
           // departementController.GetById();
           break;
         case "3":
-          // departementController.Insert();
+          departementController.Insert();
           break;
         case "4":
           // departementController.Update();
@@ -311,7 +311,7 @@ public class Program
           // employeeController.GetById();
           break;
         case "3":
-          // employeeController.Insert();
+          employeeController.Insert();
           break;
         case "4":
           // employeeController.Update();
@@ -337,7 +337,7 @@ public class Program
     var historyController = new HistoriesController(history, historyView);
 
     var isLoop = true;
-    while (isLoop)
+    // while (isLoop)
     {
       Console.WriteLine("1. List all histories");
       Console.WriteLine("2. Get history by id");
@@ -356,7 +356,7 @@ public class Program
           // historyController.GetById();
           break;
         case "3":
-          // historyController.Insert();
+          historyController.Insert();
           break;
         case "4":
           // historyController.Update();

@@ -75,7 +75,7 @@ public class Histories
     return connection.QueryFirstOrDefault<Histories>(sql, new { id });
   }
 
-  public string Insert(string start_date, string employee_id, string end_date, int department_id, int job_id)
+  public string Insert(Histories histories)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -85,11 +85,11 @@ public class Histories
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@start_date", start_date));
-      command.Parameters.Add(new SqlParameter("@employee_id", employee_id));
-      command.Parameters.Add(new SqlParameter("@end_date", end_date));
-      command.Parameters.Add(new SqlParameter("@department_id", department_id));
-      command.Parameters.Add(new SqlParameter("@job_id", job_id));
+      command.Parameters.Add(new SqlParameter("@start_date", histories.StartDate));
+      command.Parameters.Add(new SqlParameter("@employee_id", histories.EmployeeId));
+      command.Parameters.Add(new SqlParameter("@end_date", histories.EndDate));
+      command.Parameters.Add(new SqlParameter("@department_id", histories.DepartmentId));
+      command.Parameters.Add(new SqlParameter("@job_id", histories.JobId));
 
 
       connection.Open();

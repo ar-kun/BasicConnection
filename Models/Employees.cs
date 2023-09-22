@@ -88,7 +88,7 @@ public class Employees
     return connection.QueryFirstOrDefault<Employees>(sql, new { id });
   }
 
-  public string Insert(int id, string first_name, string last_name, string email, string hire_date, string salary, int manager_id, int job_id, int department_id)
+  public string Insert(Employees employees)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -98,15 +98,17 @@ public class Employees
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@first_name", first_name));
-      command.Parameters.Add(new SqlParameter("@last_name", last_name));
-      command.Parameters.Add(new SqlParameter("@email", email));
-      command.Parameters.Add(new SqlParameter("@hire_date", hire_date));
-      command.Parameters.Add(new SqlParameter("@salary", salary));
-      command.Parameters.Add(new SqlParameter("@manager_id", manager_id));
-      command.Parameters.Add(new SqlParameter("@job_id", job_id));
-      command.Parameters.Add(new SqlParameter("@department_id", department_id));
+      command.Parameters.Add(new SqlParameter("@id", employees.Id));
+      command.Parameters.Add(new SqlParameter("@first_name", employees.FirstName));
+      command.Parameters.Add(new SqlParameter("@last_name", employees.LastName));
+      command.Parameters.Add(new SqlParameter("@email", employees.Email));
+      command.Parameters.Add(new SqlParameter("@phone_number", employees.PhoneNumber));
+      command.Parameters.Add(new SqlParameter("@hire_date", employees.HireDate));
+      command.Parameters.Add(new SqlParameter("@salary", employees.Salary));
+      command.Parameters.Add(new SqlParameter("@commission_pct", employees.ComissionPct));
+      command.Parameters.Add(new SqlParameter("@manager_id", employees.ManagerId));
+      command.Parameters.Add(new SqlParameter("@job_id", employees.JobId));
+      command.Parameters.Add(new SqlParameter("@department_id", employees.DepartmentId));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

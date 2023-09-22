@@ -25,4 +25,30 @@ public class EmployeesController
       _employeesView.List(results, "employees");
     }
   }
+
+  public void Insert()
+  {
+    Employees inputEmployee = null;
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        inputEmployee = _employeesView.InsertInput();
+        if (string.IsNullOrEmpty(inputEmployee.FirstName))
+        {
+          Console.WriteLine("First name cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+    var result = _employees.Insert(inputEmployee);
+
+    _employeesView.Transaction(result);
+  }
 }

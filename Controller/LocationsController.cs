@@ -43,5 +43,32 @@ public class LocationsController
     }
   }
 
+  public void Insert()
+  {
+    Locations inputLocation = null;
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        inputLocation = _locationsView.InsertInput();
+        if (string.IsNullOrEmpty(inputLocation.StreetAddress))
+        {
+          Console.WriteLine("Region name cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _locations.Insert(inputLocation);
+
+    _locationsView.Transaction(result);
+  }
+
 
 }

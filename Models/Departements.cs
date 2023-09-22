@@ -73,7 +73,7 @@ public class Departements
     return connection.QueryFirstOrDefault<Departements>(sql, new { id });
   }
 
-  public string Insert(int id, string name, int location_id, int manager_id)
+  public string Insert(Departements departements)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -83,10 +83,10 @@ public class Departements
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@name", name));
-      command.Parameters.Add(new SqlParameter("@location_id", location_id));
-      command.Parameters.Add(new SqlParameter("@manager_id", manager_id));
+      command.Parameters.Add(new SqlParameter("@id", departements.Id));
+      command.Parameters.Add(new SqlParameter("@name", departements.Name));
+      command.Parameters.Add(new SqlParameter("@location_id", departements.LocationId));
+      command.Parameters.Add(new SqlParameter("@manager_id", departements.LocationId));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

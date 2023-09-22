@@ -83,9 +83,9 @@ public class Countries
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", Id));
-      command.Parameters.Add(new SqlParameter("@name", Name));
-      command.Parameters.Add(new SqlParameter("@region_id", Region_id));
+      command.Parameters.Add(new SqlParameter("@id", countries.Id));
+      command.Parameters.Add(new SqlParameter("@name", countries.Name));
+      command.Parameters.Add(new SqlParameter("@region_id", countries.Region_id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

@@ -26,4 +26,30 @@ public class JobsController
       _jobsView.List(results, "jobs");
     }
   }
+
+  public void Insert()
+  {
+    Jobs inputJob = null;
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        inputJob = _jobsView.InsertInput();
+        if (string.IsNullOrEmpty(inputJob.Id))
+        {
+          Console.WriteLine("Job title cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+    var result = _jobs.Insert(inputJob);
+
+    _jobsView.Transaction(result);
+  }
 }
