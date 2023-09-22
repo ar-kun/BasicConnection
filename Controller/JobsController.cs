@@ -52,4 +52,56 @@ public class JobsController
 
     _jobsView.Transaction(result);
   }
+
+  public void Update()
+  {
+    var jobs = new Jobs();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        jobs = _jobsView.UpdateJobs();
+        if (string.IsNullOrEmpty(jobs.Id))
+        {
+          Console.WriteLine("Job title cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+    var result = _jobs.Update(jobs);
+
+    _jobsView.Transaction(result);
+  }
+
+  public void Delete()
+  {
+    var jobs = new Jobs();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        jobs = _jobsView.Delete();
+        if (string.IsNullOrEmpty(jobs.Id))
+        {
+          Console.WriteLine("Job title cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+    var result = _jobs.Delete(jobs);
+
+    _jobsView.Transaction(result);
+  }
 }

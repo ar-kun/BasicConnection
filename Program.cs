@@ -224,10 +224,10 @@ public class Program
           jobController.Insert();
           break;
         case "4":
-          // jobController.Update();
+          jobController.Update();
           break;
         case "5":
-          // jobController.Delete();
+          jobController.Delete();
           break;
         case "10":
           isLoop = false;

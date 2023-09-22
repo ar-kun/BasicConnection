@@ -113,7 +113,7 @@ public class Jobs
     }
   }
 
-  public string Update(string id, string title, int min_salary, int max_salary)
+  public string Update(Jobs jobs)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -123,10 +123,10 @@ public class Jobs
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@title", title));
-      command.Parameters.Add(new SqlParameter("@min_salary", min_salary));
-      command.Parameters.Add(new SqlParameter("@max_salary", max_salary));
+      command.Parameters.Add(new SqlParameter("@id", jobs.Id));
+      command.Parameters.Add(new SqlParameter("@title", jobs.Title));
+      command.Parameters.Add(new SqlParameter("@min_salary", jobs.MinSalary));
+      command.Parameters.Add(new SqlParameter("@max_salary", jobs.MaxSalary));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
@@ -154,7 +154,7 @@ public class Jobs
 
   }
 
-  public string Delete(string id)
+  public string Delete(Jobs jobs)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -164,7 +164,7 @@ public class Jobs
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
+      command.Parameters.Add(new SqlParameter("@id", jobs.Id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
