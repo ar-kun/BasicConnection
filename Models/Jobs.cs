@@ -12,6 +12,11 @@ public class Jobs
 
   private readonly string connectionString = "Server=ARKUN;Database=db_hr_dts;Trusted_Connection=True; Timeout=30;";
 
+  public override string ToString()
+  {
+    return $"{Id} - {Title} - {MinSalary} - {MaxSalary}";
+  }
+
   // GET ALL: Region
   public List<Jobs> GetAll()
   {

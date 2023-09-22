@@ -3,25 +3,30 @@ using Dapper;
 
 namespace BasicConnectivity;
 
-public class Countries
+public class Departements
 {
-  public string Id { get; set; }
+  public int Id { get; set; }
   public string Name { get; set; }
-
-  public int region_id { get; set; }
+  public int LocationId { get; set; }
+  public int ManagerId { get; set; }
 
   private readonly string connectionString = "Server=ARKUN;Database=db_hr_dts;Trusted_Connection=True; Timeout=30;";
 
-  // GET ALL: Region
-  public List<Countries> GetAll()
+  public override string ToString()
   {
-    var countries = new List<Countries>();
+    return $"{Id} - {Name} - {LocationId} - {ManagerId}";
+  }
+
+  // GET ALL: Region
+  public List<Departements> GetAll()
+  {
+    var departements = new List<Departements>();
 
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "SELECT * FROM countries";
+    command.CommandText = "SELECT * FROM departements";
 
     try
     {
@@ -33,54 +38,55 @@ public class Countries
       {
         while (reader.Read())
         {
-          countries.Add(new Countries
+          departements.Add(new Departements
           {
-            Id = reader.GetString(0),
-            Name = reader.GetString(1)
+            Id = reader.GetInt32(0),
+            Name = reader.GetString(1),
+            LocationId = reader.GetInt32(2),
+            ManagerId = reader.GetInt32(3),
           });
         }
         reader.Close();
         connection.Close();
 
-        return countries;
+        return departements;
       }
       reader.Close();
       connection.Close();
 
-      return new List<Countries>();
+      return new List<Departements>();
     }
     catch (Exception ex)
     {
       Console.WriteLine($"Error: {ex.Message}");
     }
 
-    return new List<Countries>();
+    return new List<Departements>();
   }
 
-  // GET BY ID: Region
-  public Countries GetById(int id)
+  public Departements GetById(int id)
   {
     using var connection = new SqlConnection(connectionString);
 
-    var sql = "SELECT * FROM countries WHERE id = @id";
+    var sql = "SELECT * FROM departements WHERE id = @id";
 
-    return connection.QueryFirstOrDefault<Countries>(sql, new { id });
+    return connection.QueryFirstOrDefault<Departements>(sql, new { id });
   }
 
-  // INSERT: Region
-  public string Insert(string id, string name, int region_id)
+  public string Insert(int id, string name, int location_id, int manager_id)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "INSERT INTO countries VALUES (@name);";
+    command.CommandText = "INSERT INTO departements VALUES (@id, @name, @location_id, @manager_id);";
 
     try
     {
       command.Parameters.Add(new SqlParameter("@id", id));
       command.Parameters.Add(new SqlParameter("@name", name));
-      command.Parameters.Add(new SqlParameter("@region_id", region_id));
+      command.Parameters.Add(new SqlParameter("@location_id", location_id));
+      command.Parameters.Add(new SqlParameter("@manager_id", manager_id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
@@ -107,20 +113,20 @@ public class Countries
     }
   }
 
-  // UPDATE: Region
-  public string Update(string id, string name, int region_id)
+  public string Update(int id, string name, int location_id, int manager_id)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "UPDATE countries SET name = @name, region_id = @region_id WHERE id = @id";
+    command.CommandText = "UPDATE departements SET id = @id, name = @name, location_id = @location_id, manager_id = @manager_id WHERE id = @id";
 
     try
     {
       command.Parameters.Add(new SqlParameter("@id", id));
       command.Parameters.Add(new SqlParameter("@name", name));
-      command.Parameters.Add(new SqlParameter("@region_id", region_id));
+      command.Parameters.Add(new SqlParameter("@location_id", location_id));
+      command.Parameters.Add(new SqlParameter("@manager_id", manager_id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
@@ -145,16 +151,16 @@ public class Countries
     {
       return $"Error: {ex.Message}";
     }
+
   }
 
-  // DELETE: Region
   public string Delete(int id)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "DELETE FROM countries WHERE id = @id";
+    command.CommandText = "DELETE FROM departements WHERE id = @id";
 
     try
     {

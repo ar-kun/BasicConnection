@@ -6,16 +6,23 @@ namespace BasicConnectivity;
 public class Employees
 {
   public int Id { get; set; }
-  public string first_name { get; set; }
-  public string last_name { get; set; }
-  public string email { get; set; }
-  public string hire_date { get; set; }
-  public string salary { get; set; }
-  public int manager_id { get; set; }
-  public int job_id { get; set; }
-  public int department_id { get; set; }
+  public string FirstName { get; set; }
+  public string LastName { get; set; }
+  public string Email { get; set; }
+  public string PhoneNumber { get; set; }
+  public DateTime HireDate { get; set; }
+  public int Salary { get; set; }
+  public decimal ComissionPct { get; set; }
+  public int ManagerId { get; set; }
+  public string JobId { get; set; }
+  public int DepartmentId { get; set; }
 
   private readonly string connectionString = "Server=ARKUN;Database=db_hr_dts;Trusted_Connection=True; Timeout=30;";
+
+  public override string ToString()
+  {
+    return $"{Id} - {FirstName} - {LastName} - {Email} - {PhoneNumber} - {HireDate} - {Salary} - {ComissionPct} - {ManagerId} - {JobId} - {DepartmentId}";
+  }
 
   // GET ALL: Region
   public List<Employees> GetAll()
@@ -41,14 +48,16 @@ public class Employees
           employees.Add(new Employees
           {
             Id = reader.GetInt32(0),
-            first_name = reader.GetString(1),
-            last_name = reader.GetString(2),
-            email = reader.GetString(3),
-            hire_date = reader.GetString(3),
-            salary = reader.GetString(3),
-            manager_id = reader.GetInt32(3),
-            job_id = reader.GetInt32(3),
-            department_id = reader.GetInt32(3),
+            FirstName = reader.GetString(1),
+            LastName = reader.GetString(2),
+            Email = reader.GetString(3),
+            PhoneNumber = reader.GetString(4),
+            HireDate = reader.GetDateTime(5),
+            Salary = reader.GetInt32(6),
+            ComissionPct = reader.GetDecimal(7),
+            ManagerId = reader.GetInt32(8),
+            JobId = reader.GetString(9),
+            DepartmentId = reader.GetInt32(10),
 
           });
         }

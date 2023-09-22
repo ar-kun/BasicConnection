@@ -5,13 +5,18 @@ namespace BasicConnectivity;
 
 public class Histories
 {
-  public string start_date { get; set; }
-  public string employee_id { get; set; }
-  public string end_date { get; set; }
-  public int department_id { get; set; }
-  public int job_id { get; set; }
+  public DateTime StartDate { get; set; }
+  public int EmployeeId { get; set; }
+  public DateTime EndDate { get; set; }
+  public int DepartmentId { get; set; }
+  public string JobId { get; set; }
 
   private readonly string connectionString = "Server=ARKUN;Database=db_hr_dts;Trusted_Connection=True; Timeout=30;";
+
+  public override string ToString()
+  {
+    return $"{StartDate} - {EmployeeId} - {EndDate} - {DepartmentId} - {JobId}";
+  }
 
   // GET ALL: Region
   public List<Histories> GetAll()
@@ -36,11 +41,11 @@ public class Histories
         {
           histories.Add(new Histories
           {
-            start_date = reader.GetString(0),
-            employee_id = reader.GetString(1),
-            end_date = reader.GetString(2),
-            department_id = reader.GetInt32(3),
-            job_id = reader.GetInt32(3),
+            StartDate = reader.GetDateTime(0),
+            EmployeeId = reader.GetInt32(1),
+            EndDate = reader.GetDateTime(2),
+            DepartmentId = reader.GetInt32(3),
+            JobId = reader.GetString(4),
           });
         }
         reader.Close();

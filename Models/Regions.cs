@@ -3,28 +3,28 @@ using Dapper;
 
 namespace BasicConnectivity;
 
-public class Locations
+public class Region
 {
   public int Id { get; set; }
-  public string street_address { get; set; }
-  public string postal_code { get; set; }
-
-  public string city { get; set; }
-  public string state_province { get; set; }
-  public string country_id { get; set; }
+  public string Name { get; set; }
 
   private readonly string connectionString = "Server=ARKUN;Database=db_hr_dts;Trusted_Connection=True; Timeout=30;";
 
-  // GET ALL: Region
-  public List<Locations> GetAll()
+  public override string ToString()
   {
-    var locations = new List<Locations>();
+    return $"{Id} - {Name}";
+  }
+
+  // GET ALL: Region
+  public List<Region> GetAll()
+  {
+    var regions = new List<Region>();
 
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "SELECT * FROM locations";
+    command.CommandText = "SELECT * FROM regions";
 
     try
     {
@@ -36,61 +36,50 @@ public class Locations
       {
         while (reader.Read())
         {
-          locations.Add(new Locations
+          regions.Add(new Region
           {
             Id = reader.GetInt32(0),
-            street_address = reader.GetString(1),
-            postal_code = reader.GetString(2),
-            city = reader.GetString(3),
-            state_province = reader.GetString(4),
-            country_id = reader.GetString(5)
+            Name = reader.GetString(1)
           });
         }
         reader.Close();
         connection.Close();
 
-        return locations;
+        return regions;
       }
       reader.Close();
       connection.Close();
-
-      return new List<Locations>();
     }
     catch (Exception ex)
     {
       Console.WriteLine($"Error: {ex.Message}");
     }
 
-    return new List<Locations>();
+    return new List<Region>();
   }
 
   // GET BY ID: Region
-  public Locations GetById(int id)
+  public Region GetById(Region region)
   {
     using var connection = new SqlConnection(connectionString);
 
-    var sql = "SELECT * FROM locations WHERE id = @id";
+    var sql = "SELECT * FROM regions WHERE id = @id";
 
-    return connection.QueryFirstOrDefault<Locations>(sql, new { id });
+    return connection.QueryFirstOrDefault<Region>(sql, new { region.Id });
   }
 
   // INSERT: Region
-  public string Insert(string id, string street_address, string postal_code, string city, string state_province, string country_id)
+  public string Insert(Region region)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "INSERT INTO locations VALUES (@id, @street_address, @postal_code, @city, @state_province, @country_id);";
+    command.CommandText = "INSERT INTO regions VALUES (@name);";
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@street_address", street_address));
-      command.Parameters.Add(new SqlParameter("@postal_code", postal_code));
-      command.Parameters.Add(new SqlParameter("@city", city));
-      command.Parameters.Add(new SqlParameter("@state_province", state_province));
-      command.Parameters.Add(new SqlParameter("@country_id", country_id));
+      command.Parameters.Add(new SqlParameter("@name", region.Name));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
@@ -118,22 +107,18 @@ public class Locations
   }
 
   // UPDATE: Region
-  public string Update(string id, string street_address, string postal_code, string city, string state_province, string country_id)
+  public string Update(Region region)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "UPDATE locations SET street_address = @street_address, postal_code = @postal_code, city = @city, state_province = @state_province, country_id = @country_id WHERE id = @id";
+    command.CommandText = "UPDATE regions SET name = @name WHERE id = @id";
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@street_address", street_address));
-      command.Parameters.Add(new SqlParameter("@postal_code", postal_code));
-      command.Parameters.Add(new SqlParameter("@city", city));
-      command.Parameters.Add(new SqlParameter("@state_province", state_province));
-      command.Parameters.Add(new SqlParameter("@country_id", country_id));
+      command.Parameters.Add(new SqlParameter("@id", region.Id));
+      command.Parameters.Add(new SqlParameter("@name", region.Name));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
@@ -161,17 +146,17 @@ public class Locations
   }
 
   // DELETE: Region
-  public string Delete(string id)
+  public string Delete(Region region)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
 
     command.Connection = connection;
-    command.CommandText = "DELETE FROM locations WHERE id = @id";
+    command.CommandText = "DELETE FROM regions WHERE id = @id";
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
+      command.Parameters.Add(new SqlParameter("@id", region.Id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
