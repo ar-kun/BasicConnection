@@ -51,4 +51,69 @@ public class DepartementsController
 
     _departementsView.Transaction(result);
   }
+
+  public void Update()
+  {
+    var departements = new Departements();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        departements = _departementsView.UpdateDepartements();
+        if (string.IsNullOrEmpty(departements.Name))
+        {
+          Console.WriteLine("Departements name cannot be empty");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _departements.Update(departements);
+    _departementsView.Transaction(result);
+  }
+
+  public void Delete()
+  {
+    var departements = new Departements();
+    var isTrue = true;
+    while (isTrue)
+    {
+      try
+      {
+        departements = _departementsView.Delete();
+        if (departements == null)
+        {
+          Console.WriteLine("Departements not found");
+          continue;
+        }
+        isTrue = false;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+    }
+
+    var result = _departements.Delete(departements);
+    _departementsView.Transaction(result);
+
+  }
 }
+
+// var departement = _departementsView.Delete();
+
+//     if (departement == null)
+//     {
+//       Console.WriteLine("No data found");
+//     }
+//     else
+// {
+//   var result = _departements.Delete(departement);
+//   _departementsView.Transaction(result);
+// }

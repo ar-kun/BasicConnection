@@ -113,7 +113,7 @@ public class Departements
     }
   }
 
-  public string Update(int id, string name, int location_id, int manager_id)
+  public string Update(Departements departements)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -123,10 +123,10 @@ public class Departements
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
-      command.Parameters.Add(new SqlParameter("@name", name));
-      command.Parameters.Add(new SqlParameter("@location_id", location_id));
-      command.Parameters.Add(new SqlParameter("@manager_id", manager_id));
+      command.Parameters.Add(new SqlParameter("@id", departements.Id));
+      command.Parameters.Add(new SqlParameter("@name", departements.Name));
+      command.Parameters.Add(new SqlParameter("@location_id", departements.LocationId));
+      command.Parameters.Add(new SqlParameter("@manager_id", departements.ManagerId));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();
@@ -154,7 +154,7 @@ public class Departements
 
   }
 
-  public string Delete(int id)
+  public string Delete(Departements departements)
   {
     using var connection = new SqlConnection(connectionString);
     using var command = new SqlCommand();
@@ -164,7 +164,7 @@ public class Departements
 
     try
     {
-      command.Parameters.Add(new SqlParameter("@id", id));
+      command.Parameters.Add(new SqlParameter("@id", departements.Id));
 
       connection.Open();
       using var transaction = connection.BeginTransaction();

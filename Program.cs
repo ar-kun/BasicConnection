@@ -269,10 +269,10 @@ public class Program
           departementController.Insert();
           break;
         case "4":
-          // departementController.Update();
+          departementController.Update();
           break;
         case "5":
-          // departementController.Delete();
+          departementController.Delete();
           break;
         case "10":
           isLoop = false;
